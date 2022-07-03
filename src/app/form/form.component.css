@@ -1,0 +1,12 @@
+app-search-box {
+  display: inline-block;
+  margin: 50px;
+}
+table, td, th {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 10px;
+}
+tr {
+  height: 5px;
+}

@@ -1,0 +1,7 @@
+<div>
+  <h2>{{title}}</h2>
+  <input placeholder="{{placeholder}}" class="{{functionType}}" (click)="clearInput()" (focusout)="blockInput(false)" (focusin)="blockInput()" (keyup)="InputValidation($event)"><br>
+  <label hidden=true id="{{functionType}}_label">Номер билета должен содержать 13 символов: цифры и латинские буквы</label> <br>
+  <button (click)="decideFunction()" id="{{functionType}}">{{buttonText}}</button>
+</div>
+

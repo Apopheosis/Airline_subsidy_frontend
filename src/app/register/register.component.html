@@ -1,0 +1,5 @@
+<h1>Register Page</h1>
+Login:    <input style="margin-left: 25px" #login><br><br>
+Password: <input type="password" #passwd><br><br>
+<button mat-button (click)="goToLogin('/login')">Back</button>
+<button mat-button id="regbtn" (click)="regClick(login.value, passwd.value)">Sign up</button>

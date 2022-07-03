@@ -1,0 +1,5 @@
+<h1>Login Page</h1>
+Login:    <input style="margin-left: 25px" #login><br><br>
+Password: <input type="password" #passwd><br><br>
+<button mat-button id="loginbtn" (click)="loginClick(login.value, passwd.value)" style="display: inline-block">Login</button>
+<button mat-button (click)="goToForm('/register')" style="display: inline-block">Sign up</button>

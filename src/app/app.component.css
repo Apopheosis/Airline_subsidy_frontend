@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.main-panel {
+  top: 0;
+  left: 260px;
+  width: 125%;
+  height: 100vh;
+
+  transition: width 1s;
+}
+
+
+

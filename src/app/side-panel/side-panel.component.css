@@ -1,0 +1,17 @@
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 230px;
+  height: 100vh;
+  overflow: hidden;
+
+  transition: width 1s;
+
+  border-right: 2px solid black;
+}
+
+ul {
+  width: fit-content;
+  list-style-type: none;
+}

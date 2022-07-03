@@ -1,0 +1,41 @@
+<h1>Техподдержка</h1>
+
+<app-search-box [title]="'По номеру документа, удостоверяющего личность'" [placeholder]="'Серия и номер документа'" [buttonText]="'Найти данные пассажира'" [functionType]="'doc_number'" (docNumber)="populateTable($event)"></app-search-box>
+<app-search-box [title]="'По номеру перевозчика'" [placeholder]="'Серия и номер билета'" [buttonText]="'Найти информацию по билету'" [functionType]="'ticket_number'" (ticketNumber)="populateTable($event)"></app-search-box>
+<save-check-box></save-check-box>
+<table class="entries-table">
+  <thead>
+    <tr>
+      <th>№</th>
+      <th>Серия, номер</th>
+      <th>Имя</th>
+      <th>Фамилия</th>
+      <th>Отправитель</th>
+      <th>Статус верификации</th>
+      <th>Дата перевозки</th>
+      <th>Тип операции</th>
+      <th>Номер билета</th>
+      <th>Время вылета</th>
+      <th>Авиалиния</th>
+      <th>Аэропорт вылета</th>
+      <th>Аэропорт прилёта</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let entry of Entries;let indexOfElement=index;">
+      <td>{{indexOfElement+1}}</td>
+      <td>{{entry.passenger_document_number}}</td>
+      <td>{{entry.surname}}</td>
+      <td>{{entry.name}}</td>
+      <td>{{entry.sender}}</td>
+      <td>{{entry.validation_status}}</td>
+      <td>{{entry.time}}</td>
+      <td>{{entry.type}}</td>
+      <td>{{entry.ticket_number}}</td>
+      <td>{{entry.depart_datetime}}</td>
+      <td>{{entry.airline_code}}</td>
+      <td>{{entry.city_from_name}}</td>
+      <td>{{entry.city_to_name}}</td>
+    </tr>
+  </tbody>
+</table>
