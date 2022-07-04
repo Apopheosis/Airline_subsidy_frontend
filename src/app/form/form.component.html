@@ -1,7 +1,8 @@
+<div>
 <h1>Техподдержка</h1>
 
-<app-search-box [title]="'По номеру документа, удостоверяющего личность'" [placeholder]="'Серия и номер документа'" [buttonText]="'Найти данные пассажира'" [functionType]="'doc_number'" (docNumber)="populateTable($event)"></app-search-box>
-<app-search-box [title]="'По номеру перевозчика'" [placeholder]="'Серия и номер билета'" [buttonText]="'Найти информацию по билету'" [functionType]="'ticket_number'" (ticketNumber)="populateTable($event)"></app-search-box>
+<app-search-box class="doc_number" [title]="'По номеру документа, удостоверяющего личность'" [placeholder]="'Серия и номер документа'" [buttonText]="'Найти данные пассажира'" [functionType]="'doc_number'" (docNumber)="populateTable($event)"></app-search-box>
+<app-search-box class="ticket_number" [title]="'По номеру перевозчика'" [placeholder]="'Серия и номер билета'" [buttonText]="'Найти информацию по билету'" [functionType]="'ticket_number'" (ticketNumber)="populateTable($event)"></app-search-box>
 <save-check-box></save-check-box>
 <table class="entries-table">
   <thead>
@@ -39,3 +40,4 @@
     </tr>
   </tbody>
 </table>
+</div>

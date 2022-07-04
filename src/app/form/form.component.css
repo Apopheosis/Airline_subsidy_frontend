@@ -1,6 +1,6 @@
 app-search-box {
   display: inline-block;
-  margin: 50px;
+  margin: 10px;
 }
 table, td, th {
   border: 1px solid black;
@@ -10,3 +10,4 @@ table, td, th {
 tr {
   height: 5px;
 }
+

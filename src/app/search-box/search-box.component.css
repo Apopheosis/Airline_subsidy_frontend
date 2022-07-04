@@ -4,7 +4,7 @@ button {
   background-color:#79bbff;
   border-radius:6px;
   border:1px solid #84bbf3;
-  display:inline-block;
+  display:block;
   cursor:pointer;
   color:#ffffff;
   font-family:Arial;
@@ -25,6 +25,30 @@ button:active {
 button:disabled {
   background:gray;
 }
-label {
-  color: red;
+input[type=checkbox].doc_number {
+  display: none;
+}
+
+label[for="doc_number_checkbox"] {
+  display: none;
+}
+
+input[type=checkbox].ticket_number {
+  display: inline-block;
+  margin-left: -70px;
+}
+
+label[for="ticket_number_checkbox"] {
+  float: inside;
+  margin-left: -80px;
+}
+
+h2#ticket_number_header {
+  margin-top: 40px;
+}
+
+.doc_number, .ticket_number {
+  font-size: 14px;
+  width: 200px;
+  height: 35px;
 }

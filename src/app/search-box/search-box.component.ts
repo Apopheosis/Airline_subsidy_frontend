@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Injectable, Input, OnInit, Output, SimpleChanges} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, catchError, of} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {tick} from "@angular/core/testing";
 
@@ -70,7 +70,8 @@ export class SearchBoxComponent implements OnInit {
   }
 
   async onDocNumber() {
-    var doc_number = (<HTMLInputElement>document.getElementsByClassName(this.functionType.toString())[0]).value;
+    var doc_number = (<HTMLInputElement>document.getElementsByClassName(this.functionType.toString())[1]).value;
+    console.log(doc_number)
     this.httpService.post("https://localhost:7269/v1/transactions/by_doc_number/" + doc_number, {
       headers: {
         'Content-Type': 'application/json',
@@ -87,13 +88,16 @@ export class SearchBoxComponent implements OnInit {
     );
   }
   async onTicketNumber() {
-    var ticket_number = (<HTMLInputElement>document.getElementsByClassName("ticket_number")[0]).value;
-    console.log(ticket_number)
-    this.httpService.post("https://localhost:7269/v1/transactions/by_ticket_number/" + ticket_number, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      }
+    var ticket_number = (<HTMLInputElement>document.getElementsByClassName("ticket_number")[1]).value;
+    var allTickets = (<HTMLInputElement>document.getElementById("ticket_number_checkbox")).checked;
+    console.log(allTickets);
+    this.httpService.post("https://localhost:7269/v1/transactions/by_ticket_number/", {
+      number: ticket_number,
+      isAllTickets: allTickets
+    }, {headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+          }
     }).subscribe((data) => {
       if (data.toString()=='[]') {
         prompt("No such entries.");

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core'
 import FileSaver from "file-saver";
 import {HttpClient} from "@angular/common/http";
-import {decode, encode, labels} from "windows-1252"
+import {utils, writeFile} from "xlsx";
+
 
 @Component({
   selector: 'save-check-box',
@@ -59,39 +60,21 @@ export class SaveCheckBoxComponent implements OnInit {
     fare_price: "fare_price"
   }
 
-  convertToCSV(objArray : any) {
-    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-    var str = '';
-
-    for (var i = 0; i < array.length; i++) {
-      var line = '';
-      for (var index in array[i]) {
-        if (line != '') line += ','
-
-        line += array[i][index];
-      }
-
-      str += line + '\r\n';
-    }
-
-    return str;
-  }
-
   exportCSVFile(headers: any, items: any, fileTitle: string) {
-    if (headers) {
-      items.unshift(headers);
-    }
-    var jsonObject = JSON.stringify(items);
+    items.unshift(headers);
+    //var jsonObject = JSON.stringify(items);
+    console.log(Object.values(headers));
 
-    var csv = this.convertToCSV(items);
-    //"\uFEFF"
-    csv = "sep=,\r\n" + csv;
-    let csvEnc = encode(csv);
+    var ws = utils.json_to_sheet(items);
+    ws["!rows"]?.splice(0);
+    var wb = utils.book_new();
+    var currentdate = new Date();
+    var datetime = currentdate.getDate() + "_"
+      + (currentdate.getMonth()+1)  + "_"
+      + currentdate.getFullYear() + " _";
+    utils.book_append_sheet(wb, ws, "Operations" + datetime);
+    writeFile(wb, fileTitle + "_" + datetime + ".xlsx");
 
-    var exportedFilename = fileTitle + '.csv' || 'export.csv';
-
-    var blob = new Blob([csvEnc], { type: "text/csv;charset=utf-8;" });
-    FileSaver.saveAs(blob, exportedFilename, {autoBom: true});
   }
 
   saveDocNumber(val: string, num: string) {
@@ -111,9 +94,11 @@ export class SaveCheckBoxComponent implements OnInit {
   }
 
   async saveTicketNumber(val: string, num: string) {
+    var allTickets = (<HTMLInputElement>document.getElementById("ticket_number_checkbox")).checked;
     var body = JSON.stringify({
       code: val,
-      number: num
+      number: num,
+      isAllTickets: allTickets
     });
     this.httpService.post("https://localhost:7269/v1/transactions/operations_by_airline_code_ticket_number", body, {
       headers: {
@@ -122,18 +107,18 @@ export class SaveCheckBoxComponent implements OnInit {
       }
     }).subscribe(data => {
       console.log(data);
-      this.exportCSVFile(this.headers, data, "report_by_doc_number");
+      this.exportCSVFile(this.headers, data, "report_by_ticket_number");
     });
 
   }
 
   async saveClick(event: any) {
-    if ((<HTMLInputElement>document.getElementsByClassName("doc_number")[0]).value != "") {
-      let num = (<HTMLInputElement>document.getElementsByClassName("doc_number")[0]).value;
+    if ((<HTMLInputElement>document.getElementsByClassName("doc_number")[1]).value != "") {
+      let num = (<HTMLInputElement>document.getElementsByClassName("doc_number")[1]).value;
       await this.saveDocNumber(event.value, num);
     }
-    if ((<HTMLInputElement>document.getElementsByClassName("ticket_number")[0]).value != "") {
-      let num = (<HTMLInputElement>document.getElementsByClassName("ticket_number")[0]).value;
+    if ((<HTMLInputElement>document.getElementsByClassName("ticket_number")[1]).value != "") {
+      let num = (<HTMLInputElement>document.getElementsByClassName("ticket_number")[1]).value;
       await this.saveTicketNumber(event.value, num);
     }
   }

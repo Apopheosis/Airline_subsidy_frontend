@@ -17,6 +17,20 @@ export class InterceptorService {
     this.totalRequests++;
     this.spinner.setLoading(true);
     return next.handle(req).pipe(
+      tap(
+        (event) => {
+          if (event instanceof HttpResponse) {
+            console.log('Server response. 200')
+          }
+        },
+        (err) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status == 404) {
+              alert("No entries.")
+            }
+          }
+        }
+      ),
       finalize(() => {
         this.totalRequests--;
         if(this.totalRequests === 0) {
