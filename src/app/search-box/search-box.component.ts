@@ -72,12 +72,16 @@ export class SearchBoxComponent implements OnInit {
   async onDocNumber() {
     var doc_number = (<HTMLInputElement>document.getElementsByClassName(this.functionType.toString())[1]).value;
     console.log(doc_number)
-    this.httpService.post("https://localhost:7269/v1/transactions/by_doc_number/" + doc_number, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
+    var allTickets = (<HTMLInputElement>document.getElementById("ticket_number_checkbox")).checked;
+    this.httpService.post("https://localhost:7269/v1/transactions/by_doc_number/", {
+        number: doc_number,
+        isAllTickets: allTickets
+    }, {headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        }
       }
-    }).subscribe(
+    ).subscribe(
       data => {
         if (data.toString()=='[]') {
           prompt("No such entries.");
