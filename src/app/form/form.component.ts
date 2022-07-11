@@ -27,8 +27,10 @@ export class FormComponent implements OnInit{
 
   populateTable(data: any) {
     if (data.length==0) {
-      alert('No entries.');
+      (<HTMLTableElement>document.getElementById("entries-table")).hidden = true;
     } else {
+      (<HTMLLabelElement>document.getElementById("ErrorLabel")).hidden = true;
+      (<HTMLTableElement>document.getElementById("entries-table")).hidden = false;
       (<HTMLButtonElement>document.getElementById('ticket_number')).disabled = true;
       (<HTMLButtonElement>document.getElementById('doc_number')).disabled = true;
       (<HTMLButtonElement>document.getElementById('SaveBtn')).disabled = false;

@@ -1,9 +1,11 @@
-<div>
+<div class="main-container">
   <h2 id="{{functionType}}_header">{{title}}</h2>
   <label for="{{placeholder}}" class="inputWrapper" style="display: block">{{placeholder}}</label>
   <input id={{placeholder}} class="{{functionType}}" (click)="clearInput()" (focusout)="blockInput(false)" (focusin)="blockInput()" (keyup)="InputValidation($event)">
-  <input checked=true type="checkbox" class="{{functionType}}" id="{{functionType}}_checkbox">
-  <label for="{{functionType}}_checkbox" class="{{functionType}}">Все билеты пассажира</label><br>
+  <div class="search-box-checkbox-container">
+    <input checked=true type="checkbox" class="{{functionType}}" id="{{functionType}}_checkbox">
+    <label for="{{functionType}}_checkbox" class="{{functionType}}">Все билеты пассажира</label><br>
+  </div>
   <label style="color: red" hidden="true" id="{{functionType}}_label">Номер билета должен содержать 13 символов: цифры и латинские буквы</label>
 
   <button (click)="decideFunction()" id="{{functionType}}">{{buttonText}}</button>

@@ -1,22 +1,8 @@
 <br>
 <div>
-<button disabled=true id="SaveBtn" (click)="saveClick(selectValue)">Сохранить</button>
+<button disabled=true id="SaveBtn" (click)="saveClick()">Сохранить</button>
 <h2>Для компании</h2>
-<select #selectValue>
-  <option value="A4">Азимут (A4)</option>
-  <option value="EO">Икар (EO)</option>
-  <option value="FV">Россия (FV)</option>
-  <option value="S7">Сибирь (S7)</option>
-  <option value="R3">Якутия (R3)</option>
-  <option value="6R">АЛРОСА (6R)</option>
-  <option value="Y7">НордСтар (Y7)</option>
-  <option value="5N">Смартавиа (5N)</option>
-  <option value="IO">ИрАэро (IO)</option>
-  <option value="WZ">РедВингс (WZ)</option>
-  <option value="U6">Уральские авиалинии (U6)</option>
-  <option value="N4">Северный ветер (N4)</option>
-  <option value="UT">Ютэйр (UT)</option>
-  <option value="SU">Аэрофлот (SU)</option>
-  <option value="I8">Ижавиа (I8)</option>
+<select id="airlineSelect">
+  <option *ngFor="let airline of airlines" value="{{airline.iata_code}}">{{airline.name}} ({{airline.iata_code}})</option>
 </select>
 </div>

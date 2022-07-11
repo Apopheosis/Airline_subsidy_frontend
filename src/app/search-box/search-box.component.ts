@@ -2,6 +2,7 @@ import {Component, EventEmitter, Injectable, Input, OnInit, Output, SimpleChange
 import {BehaviorSubject, catchError, of} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {tick} from "@angular/core/testing";
+import {environment} from "../../environments/environment";
 
 @Component({ selector: "app-search-box",
   templateUrl: 'search-box.component.html',
@@ -14,6 +15,11 @@ export class SearchBoxComponent implements OnInit {
   @Input() functionType: String;
   @Output() docNumber = new EventEmitter<any>();
   @Output() ticketNumber = new EventEmitter<any>();
+
+  httpHeaders = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json'
+  }
 
   decideFunction() {
     if (this.functionType=='doc_number') this.onDocNumber()
@@ -43,26 +49,26 @@ export class SearchBoxComponent implements OnInit {
 
   clearInput() {
     if (this.functionType=='doc_number') {
-      (<HTMLInputElement>document.getElementsByClassName("ticket_number")[0]).value = "";
+      (<HTMLInputElement>document.getElementsByClassName("ticket_number")[1]).value = "";
     }
     if (this.functionType=='ticket_number') {
-      (<HTMLInputElement>document.getElementsByClassName("doc_number")[0]).value = "";
+      (<HTMLInputElement>document.getElementsByClassName("doc_number")[1]).value = "";
     }
   }
 
   blockInput(token: boolean = true) {
     this.blockSave();
     if (!token) {
-      (<HTMLInputElement>document.getElementsByClassName('ticket_number')[0]).disabled = false;
+      (<HTMLInputElement>document.getElementsByClassName('ticket_number')[1]).disabled = false;
       (<HTMLButtonElement>document.getElementById('ticket_number')).disabled = false;
-      (<HTMLInputElement>document.getElementsByClassName('doc_number')[0]).disabled = false;
+      (<HTMLInputElement>document.getElementsByClassName('doc_number')[1]).disabled = false;
       (<HTMLButtonElement>document.getElementById('doc_number')).disabled = false;
     }
     else {
       if (this.functionType=='doc_number') {
         (<HTMLButtonElement>document.getElementById('ticket_number')).disabled = true;
       } else {
-        (<HTMLInputElement>document.getElementsByClassName('doc_number')[0]).disabled = true;
+        (<HTMLInputElement>document.getElementsByClassName('doc_number')[1]).disabled = true;
         (<HTMLButtonElement>document.getElementById('doc_number')).disabled = true;
         (<HTMLButtonElement>document.getElementById('ticket_number')).disabled = true;
       }
@@ -72,15 +78,11 @@ export class SearchBoxComponent implements OnInit {
   async onDocNumber() {
     var doc_number = (<HTMLInputElement>document.getElementsByClassName(this.functionType.toString())[1]).value;
     console.log(doc_number)
-    var allTickets = (<HTMLInputElement>document.getElementById("ticket_number_checkbox")).checked;
-    this.httpService.post("https://localhost:7269/v1/transactions/by_doc_number/", {
-        number: doc_number,
-        isAllTickets: allTickets
-    }, {headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        }
-      }
+    this.httpService.post(environment.apiUrl + "by_doc_number/", {
+        number: doc_number
+    }, {
+      headers: this.httpHeaders
+    }
     ).subscribe(
       data => {
         if (data.toString()=='[]') {
@@ -95,13 +97,10 @@ export class SearchBoxComponent implements OnInit {
     var ticket_number = (<HTMLInputElement>document.getElementsByClassName("ticket_number")[1]).value;
     var allTickets = (<HTMLInputElement>document.getElementById("ticket_number_checkbox")).checked;
     console.log(allTickets);
-    this.httpService.post("https://localhost:7269/v1/transactions/by_ticket_number/", {
+    this.httpService.post(environment.apiUrl + "by_ticket_number/", {
       number: ticket_number,
       isAllTickets: allTickets
-    }, {headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-          }
+    }, {headers: this.httpHeaders
     }).subscribe((data) => {
       if (data.toString()=='[]') {
         prompt("No such entries.");
@@ -119,6 +118,7 @@ export class SearchBoxComponent implements OnInit {
     this.functionType = type;
   }
   ngOnInit() {
+
   }
   ngOnChanges(changes: any) {
   }

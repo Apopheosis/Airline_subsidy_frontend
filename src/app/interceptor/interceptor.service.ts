@@ -26,7 +26,19 @@ export class InterceptorService {
         (err) => {
           if (err instanceof HttpErrorResponse) {
             if (err.status == 404) {
-              alert("No entries.")
+              (<HTMLLabelElement>document.getElementById("ErrorLabel")).hidden = false;
+              (<HTMLTableElement>document.getElementById("entries-table")).hidden = true;
+              (<HTMLLabelElement>document.getElementById("ErrorLabel")).innerText = err.error.Message;
+            }
+            if (err.status==0) {
+              (<HTMLLabelElement>document.getElementById("ErrorLabel")).hidden = false;
+              (<HTMLTableElement>document.getElementById("entries-table")).hidden = true;
+              (<HTMLLabelElement>document.getElementById("ErrorLabel")).innerText = "База данных недоступна.";
+            }
+            if (err.status==500) {
+              (<HTMLLabelElement>document.getElementById("ErrorLabel")).hidden = false;
+              (<HTMLTableElement>document.getElementById("entries-table")).hidden = true;
+              (<HTMLLabelElement>document.getElementById("ErrorLabel")).innerText = "Внутренняя ошибка сервера.";
             }
           }
         }

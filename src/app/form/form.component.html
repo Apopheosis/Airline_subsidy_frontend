@@ -1,25 +1,28 @@
-<div>
+<div class="input-div">
 <h1>Техподдержка</h1>
 
 <app-search-box class="doc_number" [title]="'По номеру документа, удостоверяющего личность'" [placeholder]="'Серия и номер документа'" [buttonText]="'Найти данные пассажира'" [functionType]="'doc_number'" (docNumber)="populateTable($event)"></app-search-box>
 <app-search-box class="ticket_number" [title]="'По номеру перевозчика'" [placeholder]="'Серия и номер билета'" [buttonText]="'Найти информацию по билету'" [functionType]="'ticket_number'" (ticketNumber)="populateTable($event)"></app-search-box>
 <save-check-box></save-check-box>
-<table class="entries-table">
+<label id="ErrorLabel" hidden=true style="color: red"></label>
+</div>
+<div class="table-div">
+<table hidden=true id="entries-table">
   <thead>
     <tr>
       <th>№</th>
-      <th>Серия, номер</th>
-      <th>Имя</th>
+      <th>Номер документа</th>
       <th>Фамилия</th>
+      <th>Имя</th>
       <th>Отправитель</th>
-      <th>Статус верификации</th>
-      <th>Дата перевозки</th>
+      <th>Валидация</th>
+      <th>Дата транзакции</th>
       <th>Тип операции</th>
       <th>Номер билета</th>
       <th>Время вылета</th>
-      <th>Авиалиния</th>
-      <th>Аэропорт вылета</th>
-      <th>Аэропорт прилёта</th>
+      <th>АК</th>
+      <th>Город вылета</th>
+      <th>Город прилёта</th>
     </tr>
   </thead>
   <tbody>

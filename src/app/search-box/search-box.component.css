@@ -35,12 +35,8 @@ label[for="doc_number_checkbox"] {
 
 input[type=checkbox].ticket_number {
   display: inline-block;
-  margin-left: -70px;
-}
-
-label[for="ticket_number_checkbox"] {
-  float: inside;
-  margin-left: -80px;
+  height: 15px;
+  width: 15px;
 }
 
 h2#ticket_number_header {
@@ -51,4 +47,14 @@ h2#ticket_number_header {
   font-size: 14px;
   width: 200px;
   height: 35px;
+}
+
+.search-box-checkbox-container {
+  box-sizing: content-box;
+  height: 20px;
+}
+
+.main-container {
+  height: 160px;
+  box-sizing: border-box;
 }

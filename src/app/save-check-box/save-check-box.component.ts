@@ -2,7 +2,12 @@ import {Component, OnInit} from '@angular/core'
 import FileSaver from "file-saver";
 import {HttpClient} from "@angular/common/http";
 import {utils, writeFile} from "xlsx";
+import {environment} from "../../environments/environment";
 
+interface Airlines {
+  name: string,
+  iata_code: string
+}
 
 @Component({
   selector: 'save-check-box',
@@ -11,6 +16,13 @@ import {utils, writeFile} from "xlsx";
 })
 
 export class SaveCheckBoxComponent implements OnInit {
+  airlines: Airlines[] | any;
+
+  httpHeaders = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json'
+  }
+
   headers: any = {
     operation_id: "ID операции",
     type: "Тип",
@@ -43,6 +55,8 @@ export class SaveCheckBoxComponent implements OnInit {
     airline_code: "Код авиалинии",
     depart_place: "Место отправления",
     depart_datetime: "Время отправления",
+    arrive_place: "Место прибытия",
+    arrive_datetime: "Время прибытия",
     pnr_id: "ID PNR",
     operating_airline_code: "Код оперирующей авиалинии",
     city_from_code: "Код города отправления",
@@ -60,13 +74,41 @@ export class SaveCheckBoxComponent implements OnInit {
     fare_price: "fare_price"
   }
 
+  ec(r: any, c: any){
+    return utils.encode_cell({r:r,c:c});
+  }
+
+  delete_row(ws: any, row_index: any) {
+    var variable = utils.decode_range(ws["!ref"])
+    for (var R = row_index; R < variable.e.r; ++R) {
+      for (var C = variable.s.c; C <= variable.e.c; ++C) {
+        ws[this.ec(R, C)] = ws[this.ec(R + 1, C)];
+      }
+    }
+  }
+
+  AdjustColumnWidth(worksheet: any) {
+    console.log('i am here');
+    worksheet["!cols"].forEach(function (column: any, i: any) {
+      if(i!==0)
+      {
+        var maxLength = 0;
+        column["eachCell"]({ includeEmpty: true }, function (cell: any) {
+          var columnLength = cell.value ? cell.value.toString().length : 10;
+          if (columnLength > maxLength ) {
+            maxLength = columnLength;
+          }
+        });
+        column.width = maxLength < 10 ? 10 : maxLength;
+      }
+    });
+  }
+
   exportCSVFile(headers: any, items: any, fileTitle: string) {
     items.unshift(headers);
-    //var jsonObject = JSON.stringify(items);
-    console.log(Object.values(headers));
-
     var ws = utils.json_to_sheet(items);
-    ws["!rows"]?.splice(0);
+    this.delete_row(ws, 0);
+    this.AdjustColumnWidth(ws);
     var wb = utils.book_new();
     var currentdate = new Date();
     var datetime = currentdate.getDate() + "_"
@@ -79,14 +121,11 @@ export class SaveCheckBoxComponent implements OnInit {
 
   saveDocNumber(val: string, num: string) {
 
-    this.httpService.post("https://localhost:7269/v1/transactions/operations_by_airline_code_doc_number", JSON.stringify({
+    this.httpService.post(environment.apiUrl + "operations_by_airline_code_doc_number", JSON.stringify({
       code: val,
       number: num
     }), {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      }
+      headers: this.httpHeaders
     }).subscribe(data => {
       console.log(data);
       this.exportCSVFile(this.headers, data, "report_by_doc_number");
@@ -100,11 +139,8 @@ export class SaveCheckBoxComponent implements OnInit {
       number: num,
       isAllTickets: allTickets
     });
-    this.httpService.post("https://localhost:7269/v1/transactions/operations_by_airline_code_ticket_number", body, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      }
+    this.httpService.post(environment.apiUrl + "operations_by_airline_code_ticket_number", body, {
+      headers: this.httpHeaders
     }).subscribe(data => {
       console.log(data);
       this.exportCSVFile(this.headers, data, "report_by_ticket_number");
@@ -112,14 +148,15 @@ export class SaveCheckBoxComponent implements OnInit {
 
   }
 
-  async saveClick(event: any) {
+  async saveClick() {
+    let value = (<HTMLSelectElement>document.getElementById("airlineSelect")).value;
     if ((<HTMLInputElement>document.getElementsByClassName("doc_number")[1]).value != "") {
       let num = (<HTMLInputElement>document.getElementsByClassName("doc_number")[1]).value;
-      await this.saveDocNumber(event.value, num);
+      await this.saveDocNumber(value, num);
     }
     if ((<HTMLInputElement>document.getElementsByClassName("ticket_number")[1]).value != "") {
       let num = (<HTMLInputElement>document.getElementsByClassName("ticket_number")[1]).value;
-      await this.saveTicketNumber(event.value, num);
+      await this.saveTicketNumber(value, num);
     }
   }
 
@@ -128,5 +165,11 @@ export class SaveCheckBoxComponent implements OnInit {
 
 
   ngOnInit() {
+    this.httpService.post(environment.apiUrl + "get_all_airlines", {}, {
+      headers: this.httpHeaders
+    }).subscribe(data => {
+      console.log(data);
+      this.airlines = data;
+    })
   }
 }

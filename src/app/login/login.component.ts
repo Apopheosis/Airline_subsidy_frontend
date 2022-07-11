@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import {Router} from "@angular/router";
+import {environment} from "../../environments/environment";
 
 @Component({templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
@@ -10,7 +11,7 @@ export class LoginComponent implements OnInit {
     this.router.navigate([$myParam]);
   }
   async loginClick(username:string, password:string) {
-    const response = await fetch("https://localhost:7269/v1/transactions/login", {
+    const response = await fetch(environment.apiUrl + "login", {
       method: "POST",
       body: JSON.stringify({
         login: username,

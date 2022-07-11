@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {async} from "@angular/core/testing";
 import {Router} from "@angular/router";
+import {environment} from "../../environments/environment";
 
 @Component({ templateUrl: 'register.component.html'})
 export class RegisterComponent implements OnInit {
@@ -12,7 +13,7 @@ export class RegisterComponent implements OnInit {
   }
   async regClick(username:string, password:string)
   {
-    const response = await fetch("https://localhost:7269/v1/transactions/register", {
+    const response = await fetch(environment.apiUrl + "register", {
       method: "POST",
       body: JSON.stringify({
         login: username,
