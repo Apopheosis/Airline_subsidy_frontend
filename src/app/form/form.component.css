@@ -14,9 +14,16 @@ tr {
 .input-div {
   width: 100%;
   display: inline-block;
-  padding-left: 240px;
 }
 .table-div {
   width: 100%;
-  padding-left: 12%;
+
+}
+
+label#ticket_number_label {
+  padding-left: 230px;
+}
+
+div.main-container {
+  padding-right: 300px;
 }

@@ -43,6 +43,10 @@ h2#ticket_number_header {
   margin-top: 40px;
 }
 
+input.ticket_number, input.doc_number {
+  border-radius: 5px;
+}
+
 .doc_number, .ticket_number {
   font-size: 14px;
   width: 200px;
@@ -58,3 +62,4 @@ h2#ticket_number_header {
   height: 160px;
   box-sizing: border-box;
 }
+

@@ -87,28 +87,10 @@ export class SaveCheckBoxComponent implements OnInit {
     }
   }
 
-  AdjustColumnWidth(worksheet: any) {
-    console.log('i am here');
-    worksheet["!cols"].forEach(function (column: any, i: any) {
-      if(i!==0)
-      {
-        var maxLength = 0;
-        column["eachCell"]({ includeEmpty: true }, function (cell: any) {
-          var columnLength = cell.value ? cell.value.toString().length : 10;
-          if (columnLength > maxLength ) {
-            maxLength = columnLength;
-          }
-        });
-        column.width = maxLength < 10 ? 10 : maxLength;
-      }
-    });
-  }
-
   exportCSVFile(headers: any, items: any, fileTitle: string) {
     items.unshift(headers);
     var ws = utils.json_to_sheet(items);
     this.delete_row(ws, 0);
-    this.AdjustColumnWidth(ws);
     var wb = utils.book_new();
     var currentdate = new Date();
     var datetime = currentdate.getDate() + "_"

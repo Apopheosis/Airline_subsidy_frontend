@@ -1,8 +1,12 @@
+<div class="main-container">
+
+
 <div class="input-div">
 <h1>Техподдержка</h1>
 
-<app-search-box class="doc_number" [title]="'По номеру документа, удостоверяющего личность'" [placeholder]="'Серия и номер документа'" [buttonText]="'Найти данные пассажира'" [functionType]="'doc_number'" (docNumber)="populateTable($event)"></app-search-box>
-<app-search-box class="ticket_number" [title]="'По номеру перевозчика'" [placeholder]="'Серия и номер билета'" [buttonText]="'Найти информацию по билету'" [functionType]="'ticket_number'" (ticketNumber)="populateTable($event)"></app-search-box>
+<app-search-box class="doc_number" [title]="'По номеру документа'" [placeholder]="'Серия и номер документа'" [buttonText]="'Найти'" [functionType]="'doc_number'" (docNumber)="populateTable($event)"></app-search-box>
+<app-search-box class="ticket_number" [title]="'По номеру билета'" [placeholder]="'Номер билета'" [buttonText]="'Найти'" [functionType]="'ticket_number'" (ticketNumber)="populateTable($event)"></app-search-box><br>
+<label style="color: red" hidden="true" id="ticket_number_label">Номер билета должен содержать 13 символов: цифры и латинские буквы</label>
 <save-check-box></save-check-box>
 <label id="ErrorLabel" hidden=true style="color: red"></label>
 </div>
@@ -43,4 +47,5 @@
     </tr>
   </tbody>
 </table>
+</div>
 </div>
