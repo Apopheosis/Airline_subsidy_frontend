@@ -7,7 +7,7 @@
 <app-search-box class="doc_number" [title]="'По номеру документа'" [placeholder]="'Серия и номер документа'" [buttonText]="'Найти'" [functionType]="'doc_number'" (docNumber)="populateTable($event)"></app-search-box>
 <app-search-box class="ticket_number" [title]="'По номеру билета'" [placeholder]="'Номер билета'" [buttonText]="'Найти'" [functionType]="'ticket_number'" (ticketNumber)="populateTable($event)"></app-search-box><br>
 <label style="color: red" hidden="true" id="ticket_number_label">Номер билета должен содержать 13 символов: цифры и латинские буквы</label>
-<save-check-box></save-check-box>
+<save-check-box [hidden]="true"></save-check-box>
 <label id="ErrorLabel" hidden=true style="color: red"></label>
 </div>
 <div class="table-div">
@@ -20,7 +20,7 @@
       <th>Имя</th>
       <th>Отправитель</th>
       <th>Валидация</th>
-      <th>Дата транзакции</th>
+      <th>Дата операции</th>
       <th>Тип операции</th>
       <th>Номер билета</th>
       <th>Время вылета</th>

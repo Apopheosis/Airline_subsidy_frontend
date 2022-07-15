@@ -29,16 +29,19 @@ export class InterceptorService {
               (<HTMLLabelElement>document.getElementById("ErrorLabel")).hidden = false;
               (<HTMLTableElement>document.getElementById("entries-table")).hidden = true;
               (<HTMLLabelElement>document.getElementById("ErrorLabel")).innerText = err.error.Message;
+              document.getElementsByTagName("save-check-box")[0]["hidden"] = true;
             }
             if (err.status==0) {
               (<HTMLLabelElement>document.getElementById("ErrorLabel")).hidden = false;
               (<HTMLTableElement>document.getElementById("entries-table")).hidden = true;
               (<HTMLLabelElement>document.getElementById("ErrorLabel")).innerText = "База данных недоступна.";
+              document.getElementsByTagName("save-check-box")[0]["hidden"] = true;
             }
             if (err.status==500) {
               (<HTMLLabelElement>document.getElementById("ErrorLabel")).hidden = false;
               (<HTMLTableElement>document.getElementById("entries-table")).hidden = true;
               (<HTMLLabelElement>document.getElementById("ErrorLabel")).innerText = "Внутренняя ошибка сервера.";
+              document.getElementsByTagName("save-check-box")[0]["hidden"] = true;
             }
           }
         }

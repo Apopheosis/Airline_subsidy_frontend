@@ -1,6 +1,7 @@
-import {Component, Injectable, OnInit, ViewChild} from '@angular/core';
+import {Component, Injectable, OnInit, ViewChild, ViewContainerRef, ComponentRef, ComponentFactory, ComponentFactoryResolver} from '@angular/core';
 import {SearchBoxComponent} from "../search-box";
 import {BehaviorSubject} from "rxjs";
+import {SaveCheckBoxComponent} from "../save-check-box";
 
 interface ENTRIES {
   id: number;
@@ -28,7 +29,9 @@ export class FormComponent implements OnInit{
   populateTable(data: any) {
     if (data.length==0) {
       (<HTMLTableElement>document.getElementById("entries-table")).hidden = true;
+
     } else {
+      document.getElementsByTagName("save-check-box")[0]["hidden"] = false;
       (<HTMLLabelElement>document.getElementById("ErrorLabel")).hidden = true;
       (<HTMLTableElement>document.getElementById("entries-table")).hidden = false;
       (<HTMLButtonElement>document.getElementById('ticket_number')).disabled = true;
